@@ -16,13 +16,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Tambahkan rute-rute yang error tadi di sini
     Route::get('/manajemen', function () { return view('manajemen'); })->name('manajemen');
     Route::get('/penjualan', function () { return view('penjualan'); })->name('transaksi.penjualan');
     
-    // Rute untuk error yang baru ini
-    Route::get('/pembelian-supplier', function () { 
-        return view('supplier'); // Pastikan filenya ada di resources/views/supplier.blade.php
+    Route::get('/pembelian-supplier', function () { return view('supplier');
     })->name('pembelian.supplier');
 });
 

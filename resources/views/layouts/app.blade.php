@@ -143,48 +143,55 @@
     <div class="flex flex-col min-h-screen">
 
         {{-- TOP NAVBAR --}}
-        <header class="bg-white sticky top-0 z-30 shadow-sm">
-            <div class="flex items-center justify-between px-4 py-3">
+        <header class="bg-white sticky top-0 z-30 border-b border-gray-100" style="box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            <div class="flex items-center gap-3 px-4" style="height:52px;">
 
                 {{-- Hamburger --}}
-                <button onclick="openSidebar()" class="w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-xl hover:bg-teal-50 transition-colors group">
-                    <span class="w-5 h-0.5 bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors"></span>
-                    <span class="w-5 h-0.5 bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors"></span>
-                    <span class="w-3 h-0.5 bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors self-start ml-1"></span>
+                <button onclick="openSidebar()"
+                        class="flex flex-col items-center justify-center gap-[5px] w-8 h-8 rounded-lg hover:bg-teal-50 transition-colors group flex-shrink-0">
+                    <span class="w-4 h-[2px] bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors block"></span>
+                    <span class="w-4 h-[2px] bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors block"></span>
+                    <span class="w-4 h-[2px] bg-gray-500 group-hover:bg-[#2DC5A2] rounded-full transition-colors block"></span>
                 </button>
 
                 {{-- Brand --}}
-                <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 bg-[#2DC5A2] rounded-lg flex items-center justify-center">
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <div class="w-7 h-7 bg-[#2DC5A2] rounded-lg flex items-center justify-center shadow-sm">
                         <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
                             <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
                         </svg>
                     </div>
-                    <span class="font-bold text-gray-800 text-base">TokoKu</span>
+                    <span class="font-extrabold text-gray-800 text-sm tracking-tight">NigaStore</span>
                 </div>
 
-                {{-- Notif + Avatar --}}
-                <div class="flex items-center gap-2">
-                    <button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 relative transition-colors">
-                        <svg class="w-5 h-5 stroke-gray-500 fill-none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                {{-- Divider + Page Title --}}
+                @isset($header)
+                    <div class="w-px h-4 bg-gray-200 flex-shrink-0"></div>
+                    <span class="text-xs font-semibold text-gray-400 truncate flex-1">{{ $header }}</span>
+                @else
+                    <span class="flex-1"></span>
+                @endisset
+
+                {{-- Right actions --}}
+                <div class="flex items-center gap-1 flex-shrink-0">
+
+                    {{-- Notif --}}
+                    <button class="relative w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors">
+                        <svg style="width:17px;height:17px" class="stroke-gray-500 fill-none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                         </svg>
-                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+                        <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
                     </button>
-                    <div class="w-9 h-9 rounded-full bg-[#2DC5A2] flex items-center justify-center cursor-pointer" onclick="openSidebar()">
-                        <span class="text-white font-bold text-sm">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+
+                    {{-- Avatar --}}
+                    <div onclick="openSidebar()"
+                         class="w-8 h-8 rounded-full bg-gradient-to-br from-[#2DC5A2] to-[#1FA88A] flex items-center justify-center cursor-pointer shadow-sm hover:opacity-90 transition-opacity">
+                        <span class="text-white font-bold" style="font-size:11px;">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
                     </div>
-                </div>
 
+                </div>
             </div>
-
-            {{-- Page Title Sub-bar --}}
-            @isset($header)
-                <div class="px-4 pb-3 pt-0">
-                    <div class="text-sm font-semibold text-gray-700">{{ $header }}</div>
-                </div>
-            @endisset
         </header>
 
         {{-- PAGE CONTENT --}}
