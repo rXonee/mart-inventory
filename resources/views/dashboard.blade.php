@@ -3,724 +3,819 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TokoNusantara Admin</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<title>TokoNusantara — Admin Dashboard</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        ink:    '#0e1117',
-        ink2:   '#1c2333',
-        teal:   '#2DC5A2',
-        'teal-d':'#1a9e82',
-        'teal-l':'#e3f9f4',
-        'teal-m':'#b2edde',
-        cream:  '#f7f5f0',
-        warm:   '#ede9e0',
-        sand:   '#d4cfc5',
-        coral:  '#ff6b6b',
-        amber:  '#f5a623',
-      },
-      fontFamily: {
-        display: ['Syne', 'sans-serif'],
-        body:    ['DM Sans', 'sans-serif'],
-      },
-      borderRadius: {
-        sm: '8px',
-        md: '14px',
-        lg: '20px',
-        xl: '28px',
-      },
-      boxShadow: {
-        sm: '0 2px 8px rgba(14,17,23,.06)',
-        md: '0 8px 32px rgba(14,17,23,.10)',
-        lg: '0 20px 60px rgba(14,17,23,.15)',
-      },
-      keyframes: {
-        scanH:    { '0%,100%':{ top:'10%', opacity:'0' }, '50%':{ top:'50%', opacity:'1' } },
-        scanV:    { '0%,100%':{ left:'10%', opacity:'0' }, '50%':{ left:'50%', opacity:'1' } },
-        ringPulse:{ '0%,100%':{ opacity:'.15', transform:'translate(-50%,-50%) scale(1)' }, '50%':{ opacity:'.4', transform:'translate(-50%,-50%) scale(1.04)' } },
-        plFadeUp: { from:{ opacity:'0', transform:'translateY(16px)' }, to:{ opacity:'1', transform:'translateY(0)' } },
-        iconGlow: { '0%,100%':{ opacity:'.3', transform:'scale(1)' }, '50%':{ opacity:'1', transform:'scale(1.03)' } },
-        blink:    { '0%,100%':{ opacity:'1' }, '50%':{ opacity:'0' } },
-        edot:     { '0%,100%':{ transform:'scale(1)', opacity:'1' }, '50%':{ transform:'scale(1.6)', opacity:'.6' } },
-        preloaderOut: { '0%':{ clipPath:'inset(0 0 0 0)' }, '100%':{ clipPath:'inset(0 0 100% 0)' } },
-      },
-      animation: {
-        scanH:    'scanH 3s ease-in-out infinite',
-        scanV:    'scanV 4s ease-in-out infinite',
-        ring1:    'ringPulse 3s ease-in-out infinite 0s',
-        ring2:    'ringPulse 3s ease-in-out infinite .4s',
-        ring3:    'ringPulse 3s ease-in-out infinite .8s',
-        ring4:    'ringPulse 3s ease-in-out infinite 1.2s',
-        plFadeUp0:'plFadeUp .7s .1s cubic-bezier(.22,1,.36,1) both',
-        plFadeUp1:'plFadeUp .7s .3s cubic-bezier(.22,1,.36,1) both',
-        plFadeUp2:'plFadeUp .7s .5s cubic-bezier(.22,1,.36,1) both',
-        plFadeUp3:'plFadeUp .7s .7s cubic-bezier(.22,1,.36,1) both',
-        iconGlow: 'iconGlow 2s ease-in-out infinite',
-        blink:    'blink 1s step-end infinite',
-        edot:     'edot 2s ease-in-out infinite',
-        preloaderOut: 'preloaderOut .8s cubic-bezier(.76,0,.24,1) forwards',
-      },
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Plus Jakarta Sans', 'sans-serif'],
+          display: ['Syne', 'sans-serif'],
+        },
+        colors: {
+          teal: {
+            50:  '#f0fdf9',
+            100: '#ccfbef',
+            200: '#99f6e0',
+            300: '#5eead4',
+            400: '#2DC5A2',
+            500: '#14b8a6',
+            600: '#0d9488',
+            700: '#0f766e',
+          },
+          brand: '#2DC5A2',
+        },
+        keyframes: {
+          fadeUp:   { '0%':{ opacity:'0', transform:'translateY(16px)' }, '100%':{ opacity:'1', transform:'translateY(0)' } },
+          slideIn:  { '0%':{ opacity:'0', transform:'translateX(-20px)' }, '100%':{ opacity:'1', transform:'translateX(0)' } },
+          fadeIn:   { '0%':{ opacity:'0' }, '100%':{ opacity:'1' } },
+          shimmer:  { '0%':{ backgroundPosition:'-200% 0' }, '100%':{ backgroundPosition:'200% 0' } },
+          pulse2:   { '0%,100%':{ opacity:'1', transform:'scale(1)' }, '50%':{ opacity:'.5', transform:'scale(1.5)' } },
+          ringPulse:{ '0%,100%':{ opacity:'.15', transform:'translate(-50%,-50%) scale(1)' }, '50%':{ opacity:'.45', transform:'translate(-50%,-50%) scale(1.04)' } },
+          barGrow:  { '0%':{ height:'0' }, '100%':{ height:'var(--h)' } },
+          drawLine: { '0%':{ strokeDashoffset:'1000' }, '100%':{ strokeDashoffset:'0' } },
+          spin:     { '100%':{ transform:'rotate(360deg)' } },
+          clipOut:  { '0%':{ clipPath:'inset(0 0 0 0)' }, '100%':{ clipPath:'inset(0 0 100% 0)' } },
+        },
+        animation: {
+          fadeUp:    'fadeUp .6s cubic-bezier(.22,1,.36,1) forwards',
+          slideIn:   'slideIn .6s cubic-bezier(.22,1,.36,1) forwards',
+          fadeIn:    'fadeIn .5s ease forwards',
+          pulse2:    'pulse2 2s ease-in-out infinite',
+          ringPulse: 'ringPulse 3s ease-in-out infinite',
+          clipOut:   'clipOut .75s cubic-bezier(.76,0,.24,1) forwards',
+        },
+      }
     }
   }
-}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
 <style>
-  /* Minimal global resets not covered by Tailwind */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .font-display { font-family: 'Syne', sans-serif; }
 
-  /* Clip-path animation for preloader exit */
-  #preloader.out { animation: preloaderOut .8s cubic-bezier(.76,0,.24,1) forwards; }
-  @keyframes preloaderOut {
-    0%   { clip-path: inset(0 0 0 0); }
-    100% { clip-path: inset(0 0 100% 0); }
-  }
+  /* Loader */
+  #loader { position:fixed; inset:0; z-index:9999; background:#0e1117; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+  .pl-ring { position:absolute; border-radius:50%; border:1px solid rgba(45,197,162,.15); transform:translate(-50%,-50%); left:50%; top:50%; animation:ringPulse 3s ease-in-out infinite; }
+  #loader.exit { animation:clipOut .75s cubic-bezier(.76,0,.24,1) forwards; }
+  @keyframes ringPulse { 0%,100%{opacity:.15;transform:translate(-50%,-50%) scale(1);}50%{opacity:.45;transform:translate(-50%,-50%) scale(1.04);} }
+  @keyframes clipOut   { 0%{clip-path:inset(0 0 0 0);}100%{clip-path:inset(0 0 100% 0);} }
 
-  /* Scroll reveal states */
-  .rv   { opacity:0; transform:translateY(22px); transition:opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1); }
-  .rv-l { opacity:0; transform:translateX(-20px); transition:opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1); }
-  .rv.in, .rv-l.in { opacity:1; transform:none; }
+  /* Reveal */
+  .rv  { opacity:0; transform:translateY(20px); transition:opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1); }
+  .rv.in{ opacity:1; transform:translateY(0); }
+  .rvl { opacity:0; transform:translateX(-18px); transition:opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1); }
+  .rvl.in{ opacity:1; transform:translateX(0); }
+
+  /* Sidebar */
+  .sidebar-link { display:flex; align-items:center; gap:10px; padding:9px 14px; border-radius:8px; font-size:13px; font-weight:500; color:#6b7280; cursor:pointer; transition:all .15s; }
+  .sidebar-link:hover { background:#f0fdf9; color:#0f766e; }
+  .sidebar-link.active { background:#dcfce7; color:#0f766e; font-weight:600; }
+  .sidebar-link svg { width:16px; height:16px; flex-shrink:0; }
+
+  /* Active nav pill */
+  .nav-active { background:#f0fdf9; color:#0f766e; font-weight:600; }
+
+  /* Gradient hero */
+  .hero-gradient { background: linear-gradient(135deg, #134e48 0%, #2DC5A2 50%, #f59e0b 100%); }
+
+  /* Chart containers */
+  .chart-wrap { position:relative; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:5px; height:5px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:#d1fae5; border-radius:99px; }
+
+  /* Table hover */
+  .trow:hover { background:#f0fdf9; }
+
+  /* Progress bar */
+  .prog-bar { height:4px; border-radius:99px; }
+
+  /* Status badge */
+  .badge-shipped   { background:#dcfce7; color:#166534; }
+  .badge-pending   { background:#fef9c3; color:#854d0e; }
+  .badge-cancelled { background:#fee2e2; color:#991b1b; }
+  .badge-completed { background:#dcfce7; color:#166534; }
+  .badge-instock   { background:#dcfce7; color:#166534; }
+  .badge-lowstock  { background:#fef9c3; color:#854d0e; }
+  .badge-outstock  { background:#fee2e2; color:#991b1b; }
+
+  /* Typed cursor */
+  .typed-cursor { display:inline-block; width:2px; height:.9em; background:#fff; margin-left:2px; vertical-align:middle; animation:blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+  /* sidebar collapse */
+  #sidebar { width:220px; min-width:220px; transition:width .3s, min-width .3s; overflow:hidden; }
+  #sidebar.collapsed { width:0; min-width:0; }
+
+  /* App */
+  #app { opacity:0; transition:opacity .5s ease; }
+  #app.ready { opacity:1; }
+
+  /* Donut hole */
+  .donut-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
+
+  /* Line chart tooltip */
+  .chartjs-tooltip { pointer-events:none; }
+
+  /* Card hover */
+  .stat-card { transition:box-shadow .2s, transform .2s; }
+  .stat-card:hover { box-shadow:0 8px 32px rgba(45,197,162,.13); transform:translateY(-2px); }
 </style>
 </head>
-<body class="font-body bg-cream text-ink overflow-x-hidden min-h-screen">
+<body class="bg-gray-50 text-gray-800">
 
-<!-- ══════════════════════════════════════════
+<!-- ═══════════════════════════════════
      LOADING SCREEN
-══════════════════════════════════════════ -->
-<div id="preloader" class="fixed inset-0 z-[9999] bg-ink flex items-center justify-center flex-col">
-
-  <!-- bg lines -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute h-px w-full bg-[rgba(45,197,162,.07)] animate-scanH" style="top:50%"></div>
-    <div class="absolute w-px h-full bg-[rgba(45,197,162,.07)] animate-scanV" style="left:50%"></div>
-  </div>
-
+═══════════════════════════════════ -->
+<div id="loader">
   <!-- rings -->
-  <div class="absolute top-1/2 left-1/2">
-    <div class="absolute w-40 h-40 rounded-full border border-[rgba(45,197,162,.15)] -translate-x-1/2 -translate-y-1/2 animate-ring1"></div>
-    <div class="absolute w-[280px] h-[280px] rounded-full border border-[rgba(45,197,162,.15)] -translate-x-1/2 -translate-y-1/2 animate-ring2"></div>
-    <div class="absolute w-[400px] h-[400px] rounded-full border border-[rgba(45,197,162,.15)] -translate-x-1/2 -translate-y-1/2 animate-ring3"></div>
-    <div class="absolute w-[520px] h-[520px] rounded-full border border-[rgba(45,197,162,.15)] -translate-x-1/2 -translate-y-1/2 animate-ring4"></div>
-  </div>
+  <div class="pl-ring" style="width:140px;height:140px;animation-delay:0s;"></div>
+  <div class="pl-ring" style="width:260px;height:260px;animation-delay:.35s;"></div>
+  <div class="pl-ring" style="width:380px;height:380px;animation-delay:.7s;"></div>
+  <div class="pl-ring" style="width:500px;height:500px;animation-delay:1.05s;"></div>
 
+  <!-- grid bg -->
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(45,197,162,.04)1px,transparent 1px),linear-gradient(90deg,rgba(45,197,162,.04)1px,transparent 1px);background-size:44px 44px;"></div>
+  <!-- glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full" style="background:radial-gradient(circle,rgba(45,197,162,.1)0%,transparent 70%);"></div>
+
+  <!-- center content -->
   <div class="relative z-10 flex flex-col items-center gap-7 text-center">
-
-    <!-- logo -->
-    <div class="animate-plFadeUp0">
-      <div class="relative">
-        <div class="w-16 h-16 bg-teal rounded-[18px] flex items-center justify-center relative">
-          <div class="absolute inset-[-6px] border border-[rgba(45,197,162,.3)] rounded-[22px] animate-iconGlow"></div>
-          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+    <!-- icon -->
+    <div style="opacity:0;animation:fadeUp .6s .1s cubic-bezier(.22,1,.36,1) forwards" class="relative">
+      <div class="w-16 h-16 rounded-2xl bg-teal-400 flex items-center justify-center relative">
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="absolute -inset-1.5 rounded-2xl border border-teal-400/30" style="animation:ringPulse 2s ease-in-out infinite;"></div>
       </div>
     </div>
-
     <!-- wordmark -->
-    <div class="animate-plFadeUp1">
-      <h1 class="font-display text-[32px] font-extrabold text-white tracking-[-0.5px]">Niga<span class="text-teal">Store</span></h1>
-      <p class="text-[12px] font-light text-white/35 tracking-[.2em] uppercase mt-1">Admin Management System</p>
+    <div style="opacity:0;animation:fadeUp .6s .3s cubic-bezier(.22,1,.36,1) forwards">
+      <h1 class="font-display text-3xl font-bold text-white tracking-tight">Toko<span class="text-teal-400">Nusantara</span></h1>
+      <p class="text-xs text-white/30 tracking-widest uppercase mt-1 font-light">Admin Management System</p>
     </div>
-
     <!-- progress -->
-    <div class="w-60 animate-plFadeUp2">
-      <div class="w-full h-0.5 bg-white/[.08] rounded-full overflow-hidden relative">
-        <div id="plFill" class="h-full w-0 bg-teal rounded-full transition-[width] duration-300 ease-out relative">
-          <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#2DC5A2]"></div>
+    <div style="opacity:0;animation:fadeUp .6s .5s cubic-bezier(.22,1,.36,1) forwards" class="w-56">
+      <div class="w-full h-0.5 bg-white/10 rounded-full overflow-hidden">
+        <div id="plFill" class="h-full bg-teal-400 rounded-full transition-all duration-300 relative" style="width:0%">
+          <div class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#2DC5A2]"></div>
         </div>
       </div>
-      <div id="plPct" class="font-display text-[11px] font-semibold text-white/35 text-right mt-2 tracking-[.05em]">0%</div>
+      <div class="flex justify-between mt-2">
+        <span class="text-white/20 text-xs font-light tracking-wider">Memuat sistem...</span>
+        <span id="plPct" class="text-white/30 text-xs font-display font-semibold">0%</span>
+      </div>
     </div>
-
-    <!-- status -->
-    <div class="animate-plFadeUp3 text-[12px] font-light text-white/25 tracking-[.12em] uppercase">
-      Memuat sistem<span class="text-teal animate-blink">_</span>
+    <!-- dots -->
+    <div style="opacity:0;animation:fadeUp .6s .7s cubic-bezier(.22,1,.36,1) forwards" class="flex gap-2">
+      <div class="w-1.5 h-1.5 rounded-full bg-teal-400" style="animation:pulse2 1.2s .0s ease-in-out infinite"></div>
+      <div class="w-1.5 h-1.5 rounded-full bg-teal-400/60" style="animation:pulse2 1.2s .2s ease-in-out infinite"></div>
+      <div class="w-1.5 h-1.5 rounded-full bg-teal-400/30" style="animation:pulse2 1.2s .4s ease-in-out infinite"></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     APP
-══════════════════════════════════════════ -->
-<div id="app" class="min-h-screen opacity-0 translate-y-2 transition-[opacity,transform] duration-500 ease-out">
+<!-- ═══════════════════════════════════
+     APP SHELL
+═══════════════════════════════════ -->
+<div id="app" class="flex h-screen overflow-hidden">
 
-  <!-- NAV -->
-  <nav class="h-[62px] bg-white border-b border-warm flex items-center px-8 gap-0 sticky top-0 z-[200]">
-    <div class="flex items-center gap-2.5 mr-10 shrink-0">
-      <div class="w-[34px] h-[34px] bg-ink rounded-[9px] flex items-center justify-center">
-        <svg class="w-[18px] h-[18px] text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="font-display text-[16px] font-extrabold text-ink tracking-[-0.3px]">Niga<span class="text-teal">Store</span></span>
-    </div>
-
-    <div class="hidden md:flex items-center gap-0.5 flex-1">
-      <button class="nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-semibold bg-ink text-white border-none cursor-pointer transition-all whitespace-nowrap" onclick="setNav(this)">Dashboard</button>
-      <button class="nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-medium text-[#6b7280] border-none bg-transparent cursor-pointer transition-all whitespace-nowrap hover:bg-cream hover:text-ink" onclick="setNav(this)">Katalog</button>
-      <button class="nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-medium text-[#6b7280] border-none bg-transparent cursor-pointer transition-all whitespace-nowrap hover:bg-cream hover:text-ink" onclick="setNav(this)">Pesanan</button>
-      <button class="nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-medium text-[#6b7280] border-none bg-transparent cursor-pointer transition-all whitespace-nowrap hover:bg-cream hover:text-ink" onclick="setNav(this)">Laporan</button>
-      <button class="nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-medium text-[#6b7280] border-none bg-transparent cursor-pointer transition-all whitespace-nowrap hover:bg-cream hover:text-ink" onclick="setNav(this)">Pengaturan</button>
-    </div>
-
-    <div class="flex items-center gap-2.5 ml-auto shrink-0">
-      <div class="flex items-center gap-2 h-9 px-3 bg-cream rounded-sm border border-warm cursor-text transition-all focus-within:bg-white focus-within:border-teal focus-within:shadow-[0_0_0_3px_rgba(45,197,162,.12)]">
-        <svg class="w-3.5 h-3.5 text-[#9ca3af] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"/>
-        </svg>
-        <input type="text" placeholder="Cari produk, pesanan..." class="border-none bg-transparent outline-none font-body text-[13px] text-ink w-[150px] placeholder:text-[#9ca3af]"/>
-      </div>
-      <button class="w-9 h-9 rounded-sm bg-cream border border-warm flex items-center justify-center cursor-pointer transition-all relative hover:bg-white hover:border-sand">
-        <svg class="w-4 h-4 text-[#6b7280]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M15 17H9m6 0a3 3 0 11-6 0m6 0H9M5.07 9A7 7 0 1118.93 9C19.5 13 21 14 21 15H3c0-1 1.5-2 2.07-6z" stroke-width="2"/>
-        </svg>
-        <span class="absolute top-[7px] right-[7px] w-[7px] h-[7px] rounded-full bg-coral border-[1.5px] border-white"></span>
-      </button>
-      <div class="flex items-center gap-2 h-9 px-1.5 bg-cream border border-warm rounded-full cursor-pointer transition-all hover:bg-white hover:border-sand">
-        <div class="w-[26px] h-[26px] rounded-full bg-ink flex items-center justify-center font-display text-[11px] font-bold text-teal">AD</div>
-        <span class="text-[13px] font-medium text-ink pr-1">Admin</span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="bg-ink px-8 relative overflow-hidden min-h-[360px] grid md:grid-cols-2 items-stretch">
-    <!-- bg grid -->
-    <div class="absolute inset-0" style="background-image:linear-gradient(rgba(45,197,162,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(45,197,162,.04) 1px,transparent 1px);background-size:40px 40px"></div>
-    <div class="absolute bottom-[-200px] right-[-100px] w-[500px] h-[500px] rounded-full border border-[rgba(45,197,162,.08)]"></div>
-    <div class="absolute bottom-[-120px] right-[-20px] w-[300px] h-[300px] rounded-full border border-[rgba(45,197,162,.12)]"></div>
-    <div class="absolute top-[-60px] right-[20%] w-[280px] h-[280px] rounded-full" style="background:radial-gradient(circle,rgba(45,197,162,.08) 0%,transparent 70%)"></div>
-
-    <!-- left -->
-    <div class="py-12 pr-10 relative z-10 flex flex-col justify-center gap-0 border-r border-white/[.06] max-md:pr-0 max-md:border-none max-md:py-10">
-      <div class="inline-flex items-center gap-2 mb-5">
-        <div class="w-2 h-2 rounded-full bg-teal animate-edot"></div>
-        <span class="font-body text-[11px] font-semibold text-white/40 tracking-[.14em] uppercase">Admin Panel — Live Session</span>
-      </div>
-
-      <div class="mb-6">
-        <h1 class="font-display text-[52px] font-extrabold leading-[.95] tracking-[-2px] text-white max-sm:text-[36px]">
-          <span class="block">Selamat</span>
-          <span class="block text-teal">Datang,</span>
-          <span class="block" style="-webkit-text-stroke:1.5px rgba(255,255,255,.25);color:transparent">Admin.</span>
-        </h1>
-      </div>
-
-      <div class="flex items-center gap-2.5 mb-7">
-        <span class="text-[12px] font-light text-white/30 tracking-[.08em]">Mode aktif —</span>
-        <span id="typedText" class="font-display text-[13px] font-bold text-teal tracking-[.04em]"></span>
-        <span class="inline-block w-0.5 h-[.9em] bg-teal ml-0.5 align-middle animate-blink"></span>
-      </div>
-
-      <p class="text-[14px] font-light text-white/40 leading-[1.7] max-w-[380px] mb-8">
-        Pantau kinerja toko, kelola produk, dan analisis penjualan secara real-time dari satu pusat kendali.
-      </p>
-
-      <div class="flex items-center gap-3">
-        <button onclick="document.getElementById('main-content').scrollIntoView({behavior:'smooth'})"
-          class="h-[42px] px-6 bg-teal text-ink font-body text-[13px] font-bold border-none rounded-sm cursor-pointer flex items-center gap-2 transition-all hover:-translate-y-px hover:bg-teal-d hover:shadow-[0_8px_24px_rgba(45,197,162,.35)]">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- ── SIDEBAR ── -->
+  <aside id="sidebar" class="bg-white border-r border-gray-100 flex flex-col h-full z-30 flex-shrink-0">
+    <div class="flex-1 overflow-y-auto px-3 py-4">
+      <!-- Brand -->
+      <div class="flex items-center gap-2.5 px-3 mb-6">
+        <div class="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          Buka Dashboard
-        </button>
-        <button class="h-[42px] px-5 bg-white/[.06] text-white/60 font-body text-[13px] font-medium border border-white/10 rounded-sm cursor-pointer transition-all hover:bg-white/10 hover:text-white hover:border-white/20">
-          Lihat Laporan
-        </button>
+        </div>
+        <span class="font-display text-base font-bold text-gray-900">Toko<span class="text-teal-500">Nusantara</span></span>
+      </div>
+
+      <!-- E-commerce section -->
+      <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 mb-2">E-Commerce</p>
+      <div class="space-y-0.5 mb-4">
+        <div class="sidebar-link active" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2"/></svg>
+          Katalog Produk
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5h12.8M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z" stroke-width="2"/></svg>
+          Pesanan
+          <span class="ml-auto bg-teal-100 text-teal-700 text-[10px] font-bold px-1.5 py-0.5 rounded-full">12</span>
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" stroke-width="2"/><circle cx="4" cy="4" r="2" stroke-width="2"/></svg>
+          Pelanggan
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="2"/></svg>
+          Laporan
+        </div>
+      </div>
+
+      <!-- Pages section -->
+      <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 mb-2 mt-4">Halaman</p>
+      <div class="space-y-0.5 mb-4">
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2"/></svg>
+          Halaman
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-width="2"/></svg>
+          Autentikasi
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/></svg>
+          Menu Level
+        </div>
+      </div>
+
+      <!-- Other -->
+      <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 mb-2 mt-4">Lainnya</p>
+      <div class="space-y-0.5">
+        <div class="sidebar-link text-gray-300 cursor-not-allowed hover:bg-transparent">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" stroke-width="2"/></svg>
+          Dinonaktifkan
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" stroke-width="2"/></svg>
+          Label
+          <span class="ml-auto bg-teal-400 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">Baru</span>
+        </div>
+        <div class="sidebar-link" onclick="setNav(this)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-width="2"/></svg>
+          Link Eksternal
+        </div>
       </div>
     </div>
 
-    <!-- right stats -->
-    <div class="hidden md:flex py-12 pl-10 relative z-10 flex-col justify-center gap-3.5">
-      <div class="bg-white/[.04] border border-white/[.07] rounded-md px-5 py-4.5 flex items-center gap-4.5 cursor-default transition-all hover:bg-white/[.07] hover:border-teal/20 hover:translate-x-1" style="padding-top:18px;padding-bottom:18px">
-        <div class="w-11 h-11 rounded-xl bg-[rgba(45,197,162,.15)] flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2"/></svg>
+    <!-- User -->
+    <div class="border-t border-gray-100 p-3">
+      <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AD</div>
+        <div class="min-w-0">
+          <div class="text-sm font-semibold text-gray-800 truncate">Admin User</div>
+          <div class="text-xs text-gray-400 truncate">Versi Gratis · 1 Bulan</div>
         </div>
-        <div class="flex-1">
-          <div class="font-display text-[26px] font-extrabold text-white leading-none tracking-[-0.5px]">248</div>
-          <div class="text-[12px] font-light text-white/35 mt-0.5">Produk Aktif</div>
-        </div>
-        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[rgba(45,197,162,.15)] text-teal">+12</span>
-      </div>
-
-      <div class="bg-white/[.04] border border-white/[.07] rounded-md px-5 flex items-center gap-4.5 cursor-default transition-all hover:bg-white/[.07] hover:border-teal/20 hover:translate-x-1" style="padding-top:18px;padding-bottom:18px">
-        <div class="w-11 h-11 rounded-xl bg-[rgba(255,107,107,.12)] flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5h12.8M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z" stroke-width="2"/></svg>
-        </div>
-        <div class="flex-1">
-          <div class="font-display text-[26px] font-extrabold text-white leading-none tracking-[-0.5px]">57</div>
-          <div class="text-[12px] font-light text-white/35 mt-0.5">Pesanan Hari Ini</div>
-        </div>
-        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[rgba(45,197,162,.15)] text-teal">+8%</span>
-      </div>
-
-      <div class="bg-white/[.04] border border-white/[.07] rounded-md px-5 flex items-center gap-4.5 cursor-default transition-all hover:bg-white/[.07] hover:border-teal/20 hover:translate-x-1" style="padding-top:18px;padding-bottom:18px">
-        <div class="w-11 h-11 rounded-xl bg-[rgba(245,166,35,.12)] flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
-        </div>
-        <div class="flex-1">
-          <div class="font-display text-[26px] font-extrabold text-white leading-none tracking-[-0.5px]">Rp 124jt</div>
-          <div class="text-[12px] font-light text-white/35 mt-0.5">Pendapatan Bulan Ini</div>
-        </div>
-        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[rgba(45,197,162,.15)] text-teal">+23%</span>
-      </div>
-
-      <div class="bg-white/[.04] border border-white/[.07] rounded-md px-5 flex items-center gap-4.5 cursor-default transition-all hover:bg-white/[.07] hover:border-teal/20 hover:translate-x-1" style="padding-top:18px;padding-bottom:18px">
-        <div class="w-11 h-11 rounded-xl bg-[rgba(59,130,246,.12)] flex items-center justify-center shrink-0">
-          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" stroke-width="2"/></svg>
-        </div>
-        <div class="flex-1">
-          <div class="font-display text-[26px] font-extrabold text-white leading-none tracking-[-0.5px]">1.4rb</div>
-          <div class="text-[12px] font-light text-white/35 mt-0.5">Pengguna Aktif</div>
-        </div>
-        <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[rgba(45,197,162,.15)] text-teal">+5%</span>
+        <svg class="w-4 h-4 text-gray-300 ml-auto flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
     </div>
-  </section>
+  </aside>
 
-  <!-- MAIN CONTENT -->
-  <div id="main-content" class="grid gap-6 p-7 max-w-[1440px] items-start md:grid-cols-[256px_1fr] max-md:grid-cols-1 max-md:px-5">
+  <!-- ── MAIN ── -->
+  <div class="flex-1 flex flex-col overflow-hidden">
 
-    <!-- SIDEBAR -->
-    <aside class="rv-l flex flex-col gap-3.5" id="sidebar">
-      <!-- categories -->
-      <div class="bg-white border border-warm rounded-lg p-5 shadow-sm">
-        <div class="text-[10px] font-bold text-sand tracking-[.14em] uppercase mb-3">Kategori Produk</div>
-        <div id="cat-list">
-          <div class="cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all bg-ink" onclick="setCat(this,'Semua')">
-            <div class="w-2 h-2 rounded-full bg-teal shrink-0 transition-colors"></div>
-            <span class="text-[13px] font-semibold text-white flex-1 transition-colors">Semua Produk</span>
-            <span class="text-[11px] font-bold bg-[rgba(45,197,162,.15)] text-teal px-2 py-0.5 rounded-full">248</span>
+    <!-- TOPBAR -->
+    <header class="h-14 bg-white border-b border-gray-100 flex items-center px-5 gap-4 flex-shrink-0 z-20">
+      <button onclick="toggleSidebar()" class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="w-px h-5 bg-gray-200"></div>
+
+      <!-- breadcrumb -->
+      <div class="flex items-center gap-1.5 text-sm">
+        <span class="text-gray-400">E-Commerce</span>
+        <svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"/></svg>
+        <span class="text-gray-700 font-medium">Dashboard</span>
+      </div>
+
+      <div class="ml-auto flex items-center gap-3">
+        <!-- search -->
+        <div class="flex items-center gap-2 h-8 px-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-400 hover:border-teal-300 transition-colors cursor-text">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"/></svg>
+          <span class="text-xs hidden sm:block">Cari...</span>
+          <span class="hidden sm:flex items-center gap-0.5 text-[10px] text-gray-300 bg-gray-100 rounded px-1.5 py-0.5">⌘K</span>
+        </div>
+        <!-- notif -->
+        <button class="relative w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17H9m6 0a3 3 0 11-6 0m6 0H9M5.07 9A7 7 0 1118.93 9C19.5 13 21 14 21 15H3c0-1 1.5-2 2.07-6z" stroke-width="2"/></svg>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-400 rounded-full border border-white"></span>
+          <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-400 rounded-full text-white text-[9px] font-bold flex items-center justify-center">2</span>
+        </button>
+        <!-- clock -->
+        <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M12 6v6l4 2" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <!-- avatar -->
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white text-xs font-bold cursor-pointer">AD</div>
+      </div>
+    </header>
+
+    <!-- SCROLL AREA -->
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-6 space-y-5" id="main-scroll">
+
+      <!-- ── ROW 1: HERO + IDEAS ── -->
+      <div class="grid grid-cols-3 gap-5">
+        <!-- Hero Banner -->
+        <div class="col-span-2 hero-gradient rounded-2xl p-7 relative overflow-hidden rv" style="min-height:200px">
+          <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle,rgba(255,255,255,.3)1px,transparent 1px);background-size:24px 24px;"></div>
+          <div class="absolute -bottom-8 -right-8 w-48 h-48 rounded-full bg-white/5"></div>
+          <div class="absolute -bottom-4 right-20 w-28 h-28 rounded-full bg-white/5"></div>
+          <div class="relative z-10">
+            <p class="text-white/70 text-sm font-medium mb-1">Selamat datang kembali,</p>
+            <h2 class="font-display text-3xl font-bold text-white mb-1 leading-tight">
+              👋 Halo, <span id="typedHero"></span><span class="typed-cursor"></span>
+            </h2>
+            <p class="text-white/60 text-sm font-light max-w-md mt-2 leading-relaxed">
+              Selamat datang di Dashboard Admin TokoNusantara! Pantau penjualan, lacak kemajuan, dan dapatkan wawasan berharga.
+            </p>
+            <button class="mt-5 bg-white text-gray-800 text-sm font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+              Mulai Kelola →
+            </button>
           </div>
-          <div class="cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-cream" onclick="setCat(this,'Elektronik')">
-            <div class="w-2 h-2 rounded-full bg-warm shrink-0"></div>
-            <span class="text-[13px] font-medium text-[#6b7280] flex-1">Elektronik</span>
-            <span class="text-[11px] font-bold bg-cream text-[#9ca3af] px-2 py-0.5 rounded-full">84</span>
+        </div>
+
+        <!-- Ideas card -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 rv" style="transition-delay:.1s">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-semibold text-gray-800">Ide untuk Anda</h3>
+            <div class="flex gap-1">
+              <button class="w-7 h-7 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="2"/></svg>
+              </button>
+              <button class="w-7 h-7 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors">
+                <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"/></svg>
+              </button>
+            </div>
           </div>
-          <div class="cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-cream" onclick="setCat(this,'Kebutuhan')">
-            <div class="w-2 h-2 rounded-full bg-warm shrink-0"></div>
-            <span class="text-[13px] font-medium text-[#6b7280] flex-1">Kebutuhan Pokok</span>
-            <span class="text-[11px] font-bold bg-cream text-[#9ca3af] px-2 py-0.5 rounded-full">62</span>
-          </div>
-          <div class="cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-cream" onclick="setCat(this,'Fashion')">
-            <div class="w-2 h-2 rounded-full bg-warm shrink-0"></div>
-            <span class="text-[13px] font-medium text-[#6b7280] flex-1">Fashion Pria</span>
-            <span class="text-[11px] font-bold bg-cream text-[#9ca3af] px-2 py-0.5 rounded-full">47</span>
-          </div>
-          <div class="cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-cream" onclick="setCat(this,'Alat')">
-            <div class="w-2 h-2 rounded-full bg-warm shrink-0"></div>
-            <span class="text-[13px] font-medium text-[#6b7280] flex-1">Alat Tulis</span>
-            <span class="text-[11px] font-bold bg-cream text-[#9ca3af] px-2 py-0.5 rounded-full">31</span>
+          <div class="space-y-4">
+            <div class="p-4 bg-teal-50 rounded-xl border border-teal-100">
+              <h4 class="font-semibold text-gray-800 text-sm mb-1">Buat Blog Post Produk</h4>
+              <p class="text-xs text-gray-500 leading-relaxed">Tingkatkan visibilitas produk Anda dengan konten blog yang menarik dan SEO-friendly.</p>
+              <button class="mt-3 text-xs font-semibold text-teal-600 bg-white border border-teal-200 px-3 py-1.5 rounded-lg hover:bg-teal-50 transition-colors">Baca Sekarang</button>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+              <h4 class="font-semibold text-gray-800 text-sm mb-1">Optimalkan Harga</h4>
+              <p class="text-xs text-gray-500 leading-relaxed">Analisis kompetitor dan sesuaikan harga untuk meningkatkan konversi.</p>
+              <button class="mt-3 text-xs font-semibold text-amber-700 bg-white border border-amber-200 px-3 py-1.5 rounded-lg hover:bg-amber-50 transition-colors">Lihat Tips</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- upgrade -->
-      <div class="rv-l bg-ink rounded-lg p-5 relative overflow-hidden" style="transition-delay:.08s">
-        <div class="absolute top-[-40px] right-[-40px] w-[130px] h-[130px] rounded-full border border-[rgba(45,197,162,.2)]"></div>
-        <div class="absolute top-[-20px] right-[-20px] w-20 h-20 rounded-full bg-[rgba(45,197,162,.06)]"></div>
-        <div class="text-[10px] font-bold text-teal tracking-[.14em] uppercase mb-2.5">⭐ Premium</div>
-        <div class="font-display text-[18px] font-extrabold text-white leading-[1.2] tracking-[-0.3px] mb-2">Harga Distributor Eksklusif</div>
-        <div class="text-[12px] font-light text-white/40 leading-[1.6] mb-4.5" style="margin-bottom:18px">Hemat hingga 35% untuk semua kategori produk pilihan kami.</div>
-        <button class="w-full h-[38px] bg-teal text-ink font-body text-[12px] font-bold border-none rounded-sm cursor-pointer transition-all hover:bg-teal-d hover:-translate-y-px">Upgrade Sekarang</button>
-      </div>
-
-      <!-- store status -->
-      <div class="rv-l bg-white border border-warm rounded-lg p-5 shadow-sm" style="transition-delay:.14s">
-        <div class="text-[10px] font-bold text-sand tracking-[.14em] uppercase mb-3">Status Toko</div>
-        <div class="flex items-center justify-between py-2 border-b border-cream">
-          <span class="text-[12px] font-normal text-[#9ca3af]">Stok menipis</span>
-          <span class="text-[12px] font-bold text-amber">3 item</span>
-        </div>
-        <div class="flex items-center justify-between py-2 border-b border-cream">
-          <span class="text-[12px] font-normal text-[#9ca3af]">Perlu dikemas</span>
-          <span class="text-[12px] font-bold text-teal">12 item</span>
-        </div>
-        <div class="flex items-center justify-between py-2 border-b border-cream">
-          <span class="text-[12px] font-normal text-[#9ca3af]">Ulasan baru</span>
-          <span class="text-[12px] font-bold text-ink">7 ulasan</span>
-        </div>
-        <div class="flex items-center justify-between py-2">
-          <span class="text-[12px] font-normal text-[#9ca3af]">Rating toko</span>
-          <span class="text-[12px] font-bold text-ink">4.9 / 5.0</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- CONTENT -->
-    <div class="flex flex-col gap-5">
-
-      <!-- page header -->
-      <div class="rv flex items-start justify-between gap-4 flex-wrap" id="ph">
-        <div>
-          <div class="font-display text-[26px] font-extrabold text-ink tracking-[-0.5px]">Katalog <em class="not-italic text-teal">Utama</em></div>
-          <div class="text-[13px] font-normal text-[#9ca3af] mt-0.5">Kelola dan telusuri semua produk yang tersedia</div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button class="h-[38px] px-4 rounded-sm border border-warm font-body text-[12px] font-semibold bg-white text-[#6b7280] cursor-pointer flex items-center gap-1.5 transition-all hover:border-sand hover:text-ink">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 4h18M7 12h10M11 20h2" stroke-width="2" stroke-linecap="round"/></svg>
-            Filter
-          </button>
-          <button class="h-[38px] px-4 rounded-sm border border-ink font-body text-[12px] font-semibold bg-ink text-white cursor-pointer flex items-center gap-1.5 transition-all hover:bg-ink2">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2.5" stroke-linecap="round"/></svg>
-            Tambah Produk
-          </button>
-        </div>
-      </div>
-
-      <!-- stat cards -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-        <!-- card 1 -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 relative overflow-hidden shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-teal-m" data-d="0">
-          <div class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg bg-teal"></div>
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-[38px] h-[38px] rounded-[10px] bg-teal-l flex items-center justify-center">
-              <svg class="w-[18px] h-[18px] text-teal-d" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2"/></svg>
+      <!-- ── ROW 2: 3 STAT CARDS ── -->
+      <div class="grid grid-cols-3 gap-5">
+        <!-- Orders -->
+        <div class="stat-card bg-white rounded-2xl border border-gray-100 p-5 rv" data-d="0">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5h12.8M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z" stroke-width="2"/></svg>
             </div>
-            <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d]">+12 baru</span>
-          </div>
-          <div class="font-display text-[28px] font-extrabold text-ink tracking-[-0.5px] leading-none">248</div>
-          <div class="text-[12px] font-normal text-[#9ca3af] mt-1">Total Produk</div>
-          <div class="flex items-end gap-0.5 h-8 mt-3.5 border-t border-cream pt-3" id="sp0"></div>
-        </div>
-        <!-- card 2 -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 relative overflow-hidden shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-teal-m" data-d="1">
-          <div class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg bg-coral"></div>
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-[38px] h-[38px] rounded-[10px] bg-[#fff0f0] flex items-center justify-center">
-              <svg class="w-[18px] h-[18px] text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5h12.8M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z" stroke-width="2"/></svg>
+            <div class="flex items-center gap-1 text-xs font-semibold text-teal-600 bg-teal-50 px-2 py-1 rounded-full">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-width="2.5"/></svg>
+              2.29%
             </div>
-            <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d]">+8%</span>
           </div>
-          <div class="font-display text-[28px] font-extrabold text-ink tracking-[-0.5px] leading-none">57</div>
-          <div class="text-[12px] font-normal text-[#9ca3af] mt-1">Pesanan Hari Ini</div>
-          <div class="flex items-end gap-0.5 h-8 mt-3.5 border-t border-cream pt-3" id="sp1"></div>
+          <div class="text-xs text-gray-400 font-medium mb-1">Pesanan</div>
+          <div class="font-display text-3xl font-bold text-gray-900">5,312</div>
+          <div class="mt-4 h-14 chart-wrap"><canvas id="sparkOrders"></canvas></div>
         </div>
-        <!-- card 3 -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 relative overflow-hidden shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-teal-m" data-d="2">
-          <div class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg bg-amber"></div>
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-[38px] h-[38px] rounded-[10px] bg-[#fef3dc] flex items-center justify-center">
-              <svg class="w-[18px] h-[18px] text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
+
+        <!-- Revenue -->
+        <div class="stat-card bg-white rounded-2xl border border-gray-100 p-5 rv" data-d="1">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
             </div>
-            <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d]">+23%</span>
+            <div class="flex items-center gap-1 text-xs font-semibold text-teal-600 bg-teal-50 px-2 py-1 rounded-full">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-width="2.5"/></svg>
+              2.19%
+            </div>
           </div>
-          <div class="font-display text-[28px] font-extrabold text-ink tracking-[-0.5px] leading-none">Rp 124jt</div>
-          <div class="text-[12px] font-normal text-[#9ca3af] mt-1">Pendapatan Bulan Ini</div>
-          <div class="flex items-end gap-0.5 h-8 mt-3.5 border-t border-cream pt-3" id="sp2"></div>
+          <div class="text-xs text-gray-400 font-medium mb-1">Pendapatan</div>
+          <div class="font-display text-3xl font-bold text-gray-900">Rp 120jt</div>
+          <div class="mt-4 h-14 chart-wrap"><canvas id="sparkRevenue"></canvas></div>
         </div>
-        <!-- card 4 -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 relative overflow-hidden shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 hover:border-teal-m" data-d="3">
-          <div class="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg bg-blue-500"></div>
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-[38px] h-[38px] rounded-[10px] bg-[#eff6ff] flex items-center justify-center">
-              <svg class="w-[18px] h-[18px] text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" stroke-width="2"/></svg>
+
+        <!-- Conversion -->
+        <div class="stat-card bg-white rounded-2xl border border-gray-100 p-5 rv" data-d="2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" stroke-width="2"/></svg>
             </div>
-            <span class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#f0fdf4] text-[#15803d]">+5%</span>
+            <div class="flex items-center gap-1 text-xs font-semibold text-red-500 bg-red-50 px-2 py-1 rounded-full">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 17H5m0 0v-8m0 8l8-8 4 4 6-6" stroke-width="2.5"/></svg>
+              3.19%
+            </div>
           </div>
-          <div class="font-display text-[28px] font-extrabold text-ink tracking-[-0.5px] leading-none">1.4rb</div>
-          <div class="text-[12px] font-normal text-[#9ca3af] mt-1">Pengguna Aktif</div>
-          <div class="flex items-end gap-0.5 h-8 mt-3.5 border-t border-cream pt-3" id="sp3"></div>
+          <div class="text-xs text-gray-400 font-medium mb-1">Tingkat Konversi</div>
+          <div class="font-display text-3xl font-bold text-gray-900">3.5%</div>
+          <div class="mt-4 h-14 chart-wrap"><canvas id="sparkConv"></canvas></div>
         </div>
       </div>
 
-      <!-- products panel -->
-      <div class="rv bg-white border border-warm rounded-xl overflow-hidden shadow-sm">
-        <div class="px-6 py-5 border-b border-cream flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <h3 class="font-display text-[17px] font-bold text-ink tracking-[-0.2px]">Daftar Produk</h3>
-            <p class="text-[12px] text-[#9ca3af] mt-0.5">Menampilkan <span id="prod-count">8</span> produk</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="flex bg-cream rounded-sm p-[3px] gap-0.5" id="tab-group">
-              <button class="h-[30px] px-3 rounded-[6px] font-body text-[12px] font-semibold text-ink bg-white border-none cursor-pointer transition-all shadow-[0_1px_3px_rgba(0,0,0,.08)]" onclick="setTab(this)">Semua</button>
-              <button class="h-[30px] px-3 rounded-[6px] font-body text-[12px] font-medium text-[#9ca3af] bg-transparent border-none cursor-pointer transition-all hover:text-ink" onclick="setTab(this)">Terlaris</button>
-              <button class="h-[30px] px-3 rounded-[6px] font-body text-[12px] font-medium text-[#9ca3af] bg-transparent border-none cursor-pointer transition-all hover:text-ink" onclick="setTab(this)">Terbaru</button>
+      <!-- ── ROW 3: REVENUE CHART + DONUT ── -->
+      <div class="grid grid-cols-3 gap-5">
+        <!-- Revenue Line Chart -->
+        <div class="col-span-2 bg-white rounded-2xl border border-gray-100 p-5 rv">
+          <div class="flex items-start justify-between mb-5">
+            <div>
+              <h3 class="font-display text-base font-bold text-gray-900">Pendapatan</h3>
+              <p class="text-xs text-gray-400 mt-0.5">Tren 7 bulan terakhir</p>
+            </div>
+            <div class="flex gap-3">
+              <div class="flex items-center gap-2 text-xs">
+                <div class="w-2.5 h-2.5 rounded-full bg-teal-400"></div>
+                <span class="text-gray-500">Total Pemasukan</span>
+                <span class="font-semibold text-gray-800">Rp 120jt</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs">
+                <div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                <span class="text-gray-500">Total Pengeluaran</span>
+                <span class="font-semibold text-gray-800">Rp 198jt</span>
+              </div>
             </div>
           </div>
+          <!-- inline legend boxes -->
+          <div class="flex gap-4 mb-4">
+            <div class="flex items-center gap-2 bg-teal-50 rounded-xl px-4 py-3">
+              <div class="w-2 h-2 rounded-full bg-teal-400"></div>
+              <div>
+                <div class="text-xs text-gray-400">Total Pemasukan</div>
+                <div class="font-display font-bold text-gray-900">Rp 120.000.000</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 bg-amber-50 rounded-xl px-4 py-3">
+              <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+              <div>
+                <div class="text-xs text-gray-400">Total Pengeluaran</div>
+                <div class="font-display font-bold text-gray-900">Rp 198.214.000</div>
+              </div>
+            </div>
+          </div>
+          <div class="h-48 chart-wrap"><canvas id="revenueChart"></canvas></div>
         </div>
-        <div class="p-5 grid gap-3.5" id="prod-grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))"></div>
-      </div>
 
-      <!-- bottom row -->
-      <div class="grid gap-4 md:grid-cols-[1.4fr_1fr]">
-        <!-- chart -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 shadow-sm">
-          <div class="font-display text-[15px] font-bold text-ink tracking-[-0.2px] mb-1">Tren Penjualan</div>
-          <div class="text-[12px] text-[#9ca3af] mb-5">Performa 7 hari terakhir</div>
-          <div class="flex items-end gap-2.5 h-[100px]" id="chart"></div>
-          <div class="flex items-center gap-4 mt-4 pt-4 border-t border-cream">
-            <div class="flex items-center gap-1.5">
-              <div class="w-2.5 h-2.5 rounded-[3px] bg-teal"></div>
-              <span class="text-[11px] font-medium text-[#9ca3af]">Penjualan</span>
+        <!-- Donut Product Sales -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 rv" style="transition-delay:.1s">
+          <h3 class="font-display text-base font-bold text-gray-900 mb-4">Penjualan Produk</h3>
+          <div class="relative h-44 flex items-center justify-center">
+            <canvas id="donutChart"></canvas>
+            <div class="donut-center">
+              <div class="text-lg font-display font-bold text-gray-900">100%</div>
+              <div class="text-xs text-gray-400">Total</div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <div class="w-2.5 h-2.5 rounded-[3px] bg-cream border border-warm"></div>
-              <span class="text-[11px] font-medium text-[#9ca3af]">Target</span>
-            </div>
-            <div class="font-display text-[13px] font-bold text-ink ml-auto">Rp 88.4jt minggu ini</div>
           </div>
-        </div>
-
-        <!-- activity -->
-        <div class="rv bg-white border border-warm rounded-lg p-5 shadow-sm" style="transition-delay:.1s">
-          <div class="font-display text-[15px] font-bold text-ink tracking-[-0.2px] mb-1">Aktivitas Terbaru</div>
-          <div class="text-[12px] text-[#9ca3af] mb-5">Update real-time sistem</div>
-          <div class="flex flex-col">
-
-            <div class="flex items-start gap-3 py-[11px] border-b border-cream transition-all hover:pl-1">
-              <div class="w-[34px] h-[34px] rounded-[10px] bg-teal-l flex items-center justify-center shrink-0 mt-px">
-                <svg class="w-[15px] h-[15px] text-teal-d" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="2.5" stroke-linecap="round"/></svg>
-              </div>
-              <div class="flex-1">
-                <div class="text-[13px] font-medium text-ink leading-[1.4]">Pesanan #1892 dikonfirmasi</div>
-                <div class="text-[11px] font-normal text-[#9ca3af] mt-0.5">Transfer — Rp 4.200.000</div>
-              </div>
-              <div class="text-[11px] font-medium text-[#9ca3af] whitespace-nowrap mt-0.5">2 mnt lalu</div>
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-teal-400"></div><span class="text-gray-600">Smartphone</span></div>
+              <div class="text-right"><span class="font-semibold text-gray-800">Rp 22,120</span> <span class="text-gray-400">38.1%</span></div>
             </div>
-
-            <div class="flex items-start gap-3 py-[11px] border-b border-cream transition-all hover:pl-1">
-              <div class="w-[34px] h-[34px] rounded-[10px] bg-[#fff0f0] flex items-center justify-center shrink-0 mt-px">
-                <svg class="w-[15px] h-[15px] text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke-width="2"/></svg>
-              </div>
-              <div class="flex-1">
-                <div class="text-[13px] font-medium text-ink leading-[1.4]">Stok SSD NVMe hampir habis</div>
-                <div class="text-[11px] font-normal text-[#9ca3af] mt-0.5">Tersisa 3 unit saja</div>
-              </div>
-              <div class="text-[11px] font-medium text-[#9ca3af] whitespace-nowrap mt-0.5">15 mnt lalu</div>
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div><span class="text-gray-600">Laptop</span></div>
+              <div class="text-right"><span class="font-semibold text-gray-800">Rp 4,510</span> <span class="text-gray-400">28.6%</span></div>
             </div>
-
-            <div class="flex items-start gap-3 py-[11px] border-b border-cream transition-all hover:pl-1">
-              <div class="w-[34px] h-[34px] rounded-[10px] bg-[#eff6ff] flex items-center justify-center shrink-0 mt-px">
-                <svg class="w-[15px] h-[15px] text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-width="2"/></svg>
-              </div>
-              <div class="flex-1">
-                <div class="text-[13px] font-medium text-ink leading-[1.4]">14 pengguna baru terdaftar</div>
-                <div class="text-[11px] font-normal text-[#9ca3af] mt-0.5">Target harian 93% tercapai</div>
-              </div>
-              <div class="text-[11px] font-medium text-[#9ca3af] whitespace-nowrap mt-0.5">1 jam lalu</div>
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-blue-400"></div><span class="text-gray-600">Headphone</span></div>
+              <div class="text-right"><span class="font-semibold text-gray-800">Rp 800</span> <span class="text-gray-400">23.8%</span></div>
             </div>
-
-            <div class="flex items-start gap-3 py-[11px] transition-all hover:pl-1">
-              <div class="w-[34px] h-[34px] rounded-[10px] bg-[#fef3dc] flex items-center justify-center shrink-0 mt-px">
-                <svg class="w-[15px] h-[15px] text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" stroke-width="2"/></svg>
-              </div>
-              <div class="flex-1">
-                <div class="text-[13px] font-medium text-ink leading-[1.4]">Ulasan bintang 5 diterima</div>
-                <div class="text-[11px] font-normal text-[#9ca3af] mt-0.5">Untuk produk Laptop Pro M1</div>
-              </div>
-              <div class="text-[11px] font-medium text-[#9ca3af] whitespace-nowrap mt-0.5">3 jam lalu</div>
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2"><div class="w-2.5 h-2.5 rounded-full bg-red-400"></div><span class="text-gray-600">Kamera</span></div>
+              <div class="text-right"><span class="font-semibold text-gray-800">Rp 420</span> <span class="text-gray-400">9.5%</span></div>
             </div>
-
           </div>
         </div>
       </div>
 
-    </div><!-- /content -->
-  </div><!-- /main-wrap -->
+      <!-- ── ROW 4: ORDERS TABLE + REVENUE BY LOCATION ── -->
+      <div class="grid grid-cols-3 gap-5">
+        <!-- Orders Table -->
+        <div class="col-span-2 bg-white rounded-2xl border border-gray-100 overflow-hidden rv">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <h3 class="font-display text-base font-bold text-gray-900">Daftar Pesanan</h3>
+            <button class="text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">Lihat Semua →</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-100 bg-gray-50/50">
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">ID Pesanan</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Jumlah</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Metode Kirim</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Tgl Terima</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="order-tbody"></tbody>
+            </table>
+          </div>
+        </div>
 
+        <!-- Revenue by Location -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 rv" style="transition-delay:.1s">
+          <h3 class="font-display text-base font-bold text-gray-900 mb-4">Pendapatan per Wilayah</h3>
+          <!-- simple world map SVG placeholder -->
+          <div class="w-full h-28 bg-gray-50 rounded-xl mb-4 flex items-center justify-center overflow-hidden">
+            <svg viewBox="0 0 400 200" class="w-full h-full opacity-40" fill="none">
+              <!-- simplified continents -->
+              <ellipse cx="100" cy="90" rx="60" ry="45" fill="#2DC5A2" opacity=".3"/>
+              <ellipse cx="210" cy="80" rx="90" ry="55" fill="#2DC5A2" opacity=".4"/>
+              <ellipse cx="340" cy="100" rx="50" ry="40" fill="#2DC5A2" opacity=".25"/>
+              <ellipse cx="250" cy="140" rx="40" ry="30" fill="#2DC5A2" opacity=".2"/>
+              <!-- highlight dot -->
+              <circle cx="220" cy="75" r="5" fill="#2DC5A2"/>
+              <circle cx="330" cy="70" r="4" fill="#2DC5A2" opacity=".6"/>
+              <circle cx="160" cy="95" r="3.5" fill="#f59e0b"/>
+              <circle cx="215" cy="100" r="3" fill="#3b82f6" opacity=".7"/>
+            </svg>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-medium text-gray-700">Indonesia</span>
+                <span class="font-semibold text-gray-900">Rp 22,120</span>
+              </div>
+              <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-teal-400 rounded-full" style="width:85%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-medium text-gray-700">Malaysia</span>
+                <span class="font-semibold text-gray-900">Rp 12,756</span>
+              </div>
+              <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-teal-400 rounded-full" style="width:62%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-medium text-gray-700">Singapura</span>
+                <span class="font-semibold text-gray-900">Rp 8,864</span>
+              </div>
+              <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:44%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="font-medium text-gray-700">Brunei</span>
+                <span class="font-semibold text-gray-900">Rp 6,124</span>
+              </div>
+              <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:30%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ROW 5: SALES BY GENDER + TOP PRODUCTS ── -->
+      <div class="grid grid-cols-3 gap-5 pb-6">
+        <!-- Sales by Gender donut -->
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 rv">
+          <h3 class="font-display text-base font-bold text-gray-900 mb-4">Penjualan per Gender</h3>
+          <div class="relative h-44 flex items-center justify-center">
+            <canvas id="genderChart"></canvas>
+            <div class="donut-center">
+              <div class="text-base font-display font-bold text-gray-900">3 Segmen</div>
+            </div>
+          </div>
+          <div class="flex justify-center gap-5 mt-4">
+            <div class="flex items-center gap-1.5 text-xs"><div class="w-2.5 h-2.5 rounded-full bg-teal-400"></div><span class="text-gray-500">Pria</span></div>
+            <div class="flex items-center gap-1.5 text-xs"><div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div><span class="text-gray-500">Wanita</span></div>
+            <div class="flex items-center gap-1.5 text-xs"><div class="w-2.5 h-2.5 rounded-full bg-red-400"></div><span class="text-gray-500">femboy</span></div>
+            <div class="flex items-center gap-1.5 text-xs"><div class="w-2.5 h-2.5 rounded-full bg-red-400"></div><span class="text-gray-500">Waria</span></div>
+          </div>
+        </div>
+
+        <!-- Top Selling Products -->
+        <div class="col-span-2 bg-white rounded-2xl border border-gray-100 overflow-hidden rv" style="transition-delay:.1s">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+            <h3 class="font-display text-base font-bold text-gray-900">Produk Terlaris</h3>
+            <button class="text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors">Lihat Semua →</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-100 bg-gray-50/50">
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Produk</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Terjual</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pendapatan</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Rating</th>
+                  <th class="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                </tr>
+              </thead>
+              <tbody id="product-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main><!-- /main-scroll -->
+  </div><!-- /flex-1 -->
 </div><!-- /app -->
 
 <script>
-/* ════════════════════════════
+/* ═══════════════════════════════
    LOADER
-════════════════════════════ */
-const fill = document.getElementById('plFill');
-const pct  = document.getElementById('plPct');
-let progress = 0;
+═══════════════════════════════ */
+const plFill = document.getElementById('plFill');
+const plPct  = document.getElementById('plPct');
+let prog = 0;
 
-const ticker = setInterval(() => {
-  const step = Math.random() * 14 + 3;
-  progress = Math.min(progress + step, 96);
-  fill.style.width = progress + '%';
-  pct.textContent  = Math.round(progress) + '%';
-}, 220);
+const tick = setInterval(() => {
+  prog = Math.min(prog + Math.random() * 13 + 3, 96);
+  plFill.style.width = prog + '%';
+  plPct.textContent  = Math.round(prog) + '%';
+}, 200);
 
-function launchApp() {
-  clearInterval(ticker);
-  fill.style.width = '100%';
-  pct.textContent  = '100%';
-
+function boot() {
+  clearInterval(tick);
+  plFill.style.width = '100%';
+  plPct.textContent  = '100%';
   setTimeout(() => {
-    document.getElementById('preloader').classList.add('out');
+    document.getElementById('loader').classList.add('exit');
     setTimeout(() => {
-      document.getElementById('preloader').style.display = 'none';
-      const app = document.getElementById('app');
-      app.style.opacity = '1';
-      app.style.transform = 'translateY(0)';
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('app').classList.add('ready');
       initTyped();
       initReveal();
-    }, 800);
-  }, 300);
+      buildCharts();
+      buildTables();
+    }, 780);
+  }, 350);
 }
 
-if (document.readyState === 'complete') {
-  setTimeout(launchApp, 600);
-} else {
-  window.addEventListener('load', () => setTimeout(launchApp, 600));
-}
+if (document.readyState === 'complete') { setTimeout(boot, 500); }
+else { window.addEventListener('load', () => setTimeout(boot, 500)); }
 
-/* ════════════════════════════
+/* ═══════════════════════════════
    TYPED
-════════════════════════════ */
-const phrases = ['Dashboard Admin', 'Pusat Kontrol', 'Manajemen Produk', 'Laporan Real-time'];
-let pi = 0, ci = 0, erasing = false;
-const typedEl = document.getElementById('typedText');
-
-function initTyped() { runTyped(); }
-function runTyped() {
-  const ph = phrases[pi];
-  if (!erasing) {
-    typedEl.textContent = ph.slice(0, ++ci);
-    if (ci === ph.length) { erasing = true; setTimeout(runTyped, 2200); return; }
+═══════════════════════════════ */
+const heroWords = ['Admin!', 'TokoNusantara!', 'Pengelola Toko!'];
+let hw = 0, hc = 0, hdel = false;
+const heroEl = document.getElementById('typedHero');
+function initTyped() { heroTick(); }
+function heroTick() {
+  const w = heroWords[hw];
+  if (!hdel) {
+    heroEl.textContent = w.slice(0, ++hc);
+    if (hc === w.length) { hdel = true; setTimeout(heroTick, 2200); return; }
   } else {
-    typedEl.textContent = ph.slice(0, --ci);
-    if (ci === 0) { erasing = false; pi = (pi + 1) % phrases.length; }
+    heroEl.textContent = w.slice(0, --hc);
+    if (hc === 0) { hdel = false; hw = (hw + 1) % heroWords.length; }
   }
-  setTimeout(runTyped, erasing ? 50 : 90);
+  setTimeout(heroTick, hdel ? 55 : 90);
 }
 
-/* ════════════════════════════
-   NAV
-════════════════════════════ */
+/* ═══════════════════════════════
+   SIDEBAR & NAV
+═══════════════════════════════ */
+let sideOpen = true;
+function toggleSidebar() {
+  sideOpen = !sideOpen;
+  document.getElementById('sidebar').classList.toggle('collapsed', !sideOpen);
+}
 function setNav(el) {
-  document.querySelectorAll('.nav-link').forEach(b => {
-    b.className = 'nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-medium text-[#6b7280] border-none bg-transparent cursor-pointer transition-all whitespace-nowrap hover:bg-cream hover:text-ink';
-  });
-  el.className = 'nav-link h-9 px-3.5 rounded-sm font-body text-[13px] font-semibold bg-ink text-white border-none cursor-pointer transition-all whitespace-nowrap';
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
 }
 
-/* ════════════════════════════
-   TABS
-════════════════════════════ */
-function setTab(el) {
-  document.querySelectorAll('#tab-group button').forEach(b => {
-    b.className = 'h-[30px] px-3 rounded-[6px] font-body text-[12px] font-medium text-[#9ca3af] bg-transparent border-none cursor-pointer transition-all hover:text-ink';
-  });
-  el.className = 'h-[30px] px-3 rounded-[6px] font-body text-[12px] font-semibold text-ink bg-white border-none cursor-pointer transition-all shadow-[0_1px_3px_rgba(0,0,0,.08)]';
-}
-
-/* ════════════════════════════
-   SPARKLINES
-════════════════════════════ */
-const sparkData = [
-  [3,5,4,7,5,8,6,9,7,10],
-  [5,4,6,5,7,4,8,6,9,7],
-  [4,6,5,8,7,9,8,10,9,11],
-  [6,5,7,6,8,7,9,8,10,9],
-];
-sparkData.forEach((data, i) => {
-  const mx = Math.max(...data);
-  const el = document.getElementById('sp' + i);
-  const hi = data.indexOf(mx);
-  el.innerHTML = data.map((v, j) =>
-    `<div class="flex-1 rounded-t-[3px] min-h-1 transition-colors ${j === hi ? 'bg-teal' : 'bg-cream'}" style="height:${Math.round(v/mx*28)}px"></div>`
-  ).join('');
-});
-
-/* ════════════════════════════
-   PRODUCTS
-════════════════════════════ */
-const products = [
-  { n:'Laptop Pro M1',       p:'Rp 14.5jt', i:'💻', c:'Elektronik' },
-  { n:'Mechanical Keyboard', p:'Rp 850rb',  i:'⌨️', c:'Elektronik' },
-  { n:'Wireless Mouse',      p:'Rp 320rb',  i:'🖱️', c:'Elektronik' },
-  { n:'Monitor 4K 27"',      p:'Rp 4.2jt',  i:'🖥️', c:'Elektronik' },
-  { n:'Smartwatch Gen-5',    p:'Rp 2.1jt',  i:'⌚', c:'Elektronik' },
-  { n:'Headset Gaming',      p:'Rp 750rb',  i:'🎧', c:'Elektronik' },
-  { n:'USB-C Hub 7in1',      p:'Rp 450rb',  i:'🔌', c:'Elektronik' },
-  { n:'SSD NVMe 1TB',        p:'Rp 1.2jt',  i:'💾', c:'Elektronik' },
-];
-
-let curCat = 'Semua';
-
-function renderProds() {
-  const grid = document.getElementById('prod-grid');
-  const list = products.filter(p => curCat === 'Semua' || p.c.startsWith(curCat));
-  document.getElementById('prod-count').textContent = list.length;
-
-  grid.innerHTML = list.map((p, i) => `
-    <div class="prod-card border border-[#f3f0eb] rounded-md p-3.5 cursor-pointer transition-all relative overflow-hidden hover:border-teal-m hover:shadow-[0_8px_28px_rgba(45,197,162,.15)] hover:-translate-y-[3px] hover:scale-[1.01]"
-         style="opacity:0;transform:translateY(14px) scale(.97);transition:opacity .4s ${i*45}ms cubic-bezier(.22,1,.36,1),transform .4s ${i*45}ms cubic-bezier(.22,1,.36,1),box-shadow .2s,border-color .2s">
-      <div class="aspect-square bg-cream rounded-[10px] flex items-center justify-center text-[30px] mb-3 transition-colors hover-parent-img relative z-10">${p.i}</div>
-      <div class="text-[11px] font-semibold text-[#9ca3af] uppercase tracking-[.06em] mb-1.5 truncate relative z-10">${p.n}</div>
-      <div class="flex items-center justify-between relative z-10">
-        <span class="font-display text-[15px] font-extrabold text-ink">${p.p}</span>
-        <button class="prod-add-btn w-7 h-7 rounded-[8px] bg-cream border-none cursor-pointer flex items-center justify-center transition-all" onclick="event.stopPropagation()">
-          <svg class="w-[13px] h-[13px] text-[#9ca3af]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M12 4v16m8-8H4" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  `).join('');
-
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    grid.querySelectorAll('.prod-card').forEach(c => {
-      c.style.opacity = '1';
-      c.style.transform = 'translateY(0) scale(1)';
-    });
-  }));
-}
-
-function setCat(el, cat) {
-  document.querySelectorAll('.cat-item').forEach(r => {
-    r.className = 'cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-cream';
-    r.querySelector('div').className = 'w-2 h-2 rounded-full bg-warm shrink-0';
-    r.querySelector('span:first-of-type').className = 'text-[13px] font-medium text-[#6b7280] flex-1';
-    r.querySelector('span:last-of-type').className = 'text-[11px] font-bold bg-cream text-[#9ca3af] px-2 py-0.5 rounded-full';
-  });
-  el.className = 'cat-item flex items-center gap-2.5 px-3 py-2.5 rounded-sm cursor-pointer transition-all bg-ink';
-  el.querySelector('div').className = 'w-2 h-2 rounded-full bg-teal shrink-0';
-  el.querySelector('span:first-of-type').className = 'text-[13px] font-semibold text-white flex-1';
-  el.querySelector('span:last-of-type').className = 'text-[11px] font-bold bg-[rgba(45,197,162,.15)] text-teal px-2 py-0.5 rounded-full';
-  curCat = cat;
-  renderProds();
-}
-
-/* ════════════════════════════
-   BAR CHART
-════════════════════════════ */
-const days = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
-const vals = [42, 65, 38, 72, 55, 88, 60];
-const maxV = Math.max(...vals);
-
-document.getElementById('chart').innerHTML = days.map((d, i) => `
-  <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
-    <div class="w-full rounded-t-[6px] transition-all relative overflow-hidden ${i === 5 ? 'bg-teal' : 'bg-cream'}" style="height:${Math.round(vals[i]/maxV*90)}px">
-      ${i === 5 ? '<div class="absolute top-0 left-0 right-0 h-[3px] rounded-t-[6px] bg-white/40"></div>' : ''}
-    </div>
-    <span class="text-[10px] font-semibold text-[#9ca3af]">${d}</span>
-  </div>
-`).join('');
-
-/* ════════════════════════════
+/* ═══════════════════════════════
    SCROLL REVEAL
-════════════════════════════ */
+═══════════════════════════════ */
 function initReveal() {
-  const io = new IntersectionObserver((entries) => {
+  const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
-      const el = e.target;
-      const d  = parseInt(el.dataset.d || '0') * 80;
-      setTimeout(() => el.classList.add('in'), d);
-      io.unobserve(el);
+      const d = parseInt(e.target.dataset.d || '0') * 80;
+      setTimeout(() => e.target.classList.add('in'), d);
+      io.unobserve(e.target);
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.rv, .rv-l').forEach(el => io.observe(el));
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rv, .rvl').forEach(el => io.observe(el));
 }
 
-/* ════════════════════════════
-   INIT
-════════════════════════════ */
-renderProds();
+/* ═══════════════════════════════
+   CHARTS
+═══════════════════════════════ */
+function buildCharts() {
+  const sparkOpts = (color) => ({
+    type: 'line',
+    data: {
+      labels: Array(9).fill(''),
+      datasets: [{ data: Array.from({length:9}, () => Math.random()*50+30),
+        borderColor: color, borderWidth: 2, tension: .4,
+        fill: true,
+        backgroundColor: color.replace(')', ',.12)').replace('rgb', 'rgba'),
+        pointRadius: 0 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins:{ legend:{display:false}, tooltip:{enabled:false}}, scales:{ x:{display:false}, y:{display:false}} }
+  });
+
+  new Chart(document.getElementById('sparkOrders'),  sparkOpts('rgb(245,158,11)'));
+  new Chart(document.getElementById('sparkRevenue'), sparkOpts('rgb(45,197,162)'));
+  new Chart(document.getElementById('sparkConv'),    sparkOpts('rgb(59,130,246)'));
+
+  // Revenue line chart
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul'],
+      datasets: [
+        { label:'Pemasukan', data:[30,40,32,52,47,100,95],
+          borderColor:'#2DC5A2', borderWidth:2.5, tension:.4,
+          fill:true, backgroundColor:'rgba(45,197,162,.08)',
+          pointBackgroundColor:'#2DC5A2', pointRadius:4, pointHoverRadius:6 },
+        { label:'Pengeluaran', data:[28,38,30,48,44,82,80],
+          borderColor:'#f59e0b', borderWidth:2, tension:.4,
+          fill:false, borderDash:[5,4],
+          pointBackgroundColor:'#f59e0b', pointRadius:3, pointHoverRadius:5 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#fff', titleColor:'#1f2937', bodyColor:'#6b7280', borderColor:'#e5e7eb', borderWidth:1, padding:10, cornerRadius:10 }},
+      scales:{
+        x:{ grid:{display:false}, ticks:{ color:'#9ca3af', font:{size:11,family:'Plus Jakarta Sans'} } },
+        y:{ grid:{ color:'rgba(0,0,0,.04)', drawBorder:false }, ticks:{ color:'#9ca3af', font:{size:11,family:'Plus Jakarta Sans'}, callback:v=>v+'k' } }
+      }
+    }
+  });
+
+  // Donut product sales
+  new Chart(document.getElementById('donutChart'), {
+    type:'doughnut',
+    data:{
+      datasets:[{ data:[38.1,28.6,23.8,9.5],
+        backgroundColor:['#2DC5A2','#f59e0b','#60a5fa','#f87171'],
+        borderWidth:0, hoverOffset:4, spacing:2 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'72%',
+      plugins:{ legend:{display:false}, tooltip:{enabled:false}} }
+  });
+
+  // Gender donut
+  new Chart(document.getElementById('genderChart'), {
+    type:'doughnut',
+    data:{
+      datasets:[
+        { data:[45,35,20], backgroundColor:['#2DC5A2','#f59e0b','#f87171'],
+          borderWidth:0, hoverOffset:4, spacing:2 },
+        { data:[40,30,30], backgroundColor:['rgba(45,197,162,.25)','rgba(245,158,11,.25)','rgba(248,113,113,.25)'],
+          borderWidth:0, hoverOffset:2, spacing:2 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+      plugins:{ legend:{display:false}, tooltip:{enabled:false}} }
+  });
+}
+
+/* ═══════════════════════════════
+   TABLES
+═══════════════════════════════ */
+function buildTables() {
+  const orders = [
+    { id:'#DU005', amount:'Rp 150rb', method:'Standar',    date:'20 Jan 2025', status:'Dikirim',  s:'shipped' },
+    { id:'#DU004', amount:'Rp 200rb', method:'Ekspres',    date:'22 Jan 2025', status:'Proses',   s:'pending' },
+    { id:'#DU003', amount:'Rp 300rb', method:'Same Day',   date:'18 Jan 2025', status:'Dibatal',  s:'cancelled' },
+    { id:'#DU002', amount:'Rp 560rb', method:'Same Day',   date:'13 Jan 2025', status:'Selesai',  s:'completed' },
+    { id:'#DU001', amount:'Rp 560rb', method:'Same Day',   date:'11 Jan 2025', status:'Selesai',  s:'completed' },
+  ];
+  const badgeMap = { shipped:'badge-shipped', pending:'badge-pending', cancelled:'badge-cancelled', completed:'badge-completed' };
+  document.getElementById('order-tbody').innerHTML = orders.map(o => `
+    <tr class="trow border-b border-gray-50 cursor-pointer transition-colors">
+      <td class="px-5 py-3.5 text-sm font-semibold text-teal-600">${o.id}</td>
+      <td class="px-5 py-3.5 text-sm text-gray-700">${o.amount}</td>
+      <td class="px-5 py-3.5 text-sm text-gray-600">${o.method}</td>
+      <td class="px-5 py-3.5 text-sm text-gray-500">${o.date}</td>
+      <td class="px-5 py-3.5"><span class="text-xs font-semibold px-2.5 py-1 rounded-full ${badgeMap[o.s]}">${o.status}</span></td>
+      <td class="px-5 py-3.5"><button class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 hover:border-teal-300 hover:text-teal-600 hover:bg-teal-50 transition-colors">Lihat</button></td>
+    </tr>
+  `).join('');
+
+  const prods = [
+    { name:'Kacamata Transparan', emoji:'🕶️', sale:454, rev:'Rp 50jt', rating:'5/5', stock:'instock', lbl:'Tersedia' },
+    { name:'Kacamata Vintage',    emoji:'👓', sale:454, rev:'Rp 50jt', rating:'5/5', stock:'instock', lbl:'Tersedia' },
+    { name:'Frame Bulat',         emoji:'🥽', sale:124, rev:'Rp 30jt', rating:'4.0', stock:'lowstock', lbl:'Stok Sedikit' },
+    { name:'Lensa Warna-warni',   emoji:'🕶️', sale:124, rev:'Rp 30jt', rating:'4.0', stock:'lowstock', lbl:'Stok Sedikit' },
+    { name:'Frame Sporty',        emoji:'🥽', sale:124, rev:'Rp 30jt', rating:'4.0', stock:'lowstock', lbl:'Stok Sedikit' },
+    { name:'Frame Premium',       emoji:'👓', sale:124, rev:'Rp 30jt', rating:'4.8', stock:'outstock', lbl:'Habis' },
+  ];
+  const stockMap = { instock:'badge-instock', lowstock:'badge-lowstock', outstock:'badge-outstock' };
+  document.getElementById('product-tbody').innerHTML = prods.map(p => `
+    <tr class="trow border-b border-gray-50 cursor-pointer transition-colors">
+      <td class="px-5 py-3.5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-lg flex-shrink-0">${p.emoji}</div>
+          <span class="text-sm font-medium text-gray-800">${p.name}</span>
+        </div>
+      </td>
+      <td class="px-5 py-3.5 text-sm text-gray-600">${p.sale}</td>
+      <td class="px-5 py-3.5 text-sm font-semibold text-gray-800">${p.rev}</td>
+      <td class="px-5 py-3.5"><span class="text-sm font-semibold text-amber-500">★ ${p.rating}</span></td>
+      <td class="px-5 py-3.5"><span class="text-xs font-semibold px-2.5 py-1 rounded-full ${stockMap[p.stock]}">${p.lbl}</span></td>
+    </tr>
+  `).join('');
+}
 </script>
 </body>
 </html>
