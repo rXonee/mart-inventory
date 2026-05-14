@@ -140,7 +140,6 @@ function buildCharts() {
 
   new Chart(document.getElementById('sparkOrders'), sparkOpts('rgb(245,158,11)'));
   new Chart(document.getElementById('sparkRevenue'), sparkOpts('rgb(45,197,162)'));
-  new Chart(document.getElementById('sparkConv'), sparkOpts('rgb(59,130,246)'));
 
   // Revenue line chart
   new Chart(document.getElementById('revenueChart'), {
@@ -214,66 +213,6 @@ function buildCharts() {
             },
             callback: v => v + 'k'
           }
-        }
-      }
-    }
-  });
-
-  // Donut product sales
-  new Chart(document.getElementById('donutChart'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [38.1, 28.6, 23.8, 9.5],
-        backgroundColor: ['#2DC5A2', '#f59e0b', '#60a5fa', '#f87171'],
-        borderWidth: 0,
-        hoverOffset: 4,
-        spacing: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '72%',
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          enabled: false
-        }
-      }
-    }
-  });
-
-  // Gender donut
-  new Chart(document.getElementById('genderChart'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [45, 35, 20],
-        backgroundColor: ['#2DC5A2', '#f59e0b', '#f87171'],
-        borderWidth: 0,
-        hoverOffset: 4,
-        spacing: 2
-      }, {
-        data: [40, 30, 30],
-        backgroundColor: ['rgba(45,197,162,.25)', 'rgba(245,158,11,.25)', 'rgba(248,113,113,.25)'],
-        borderWidth: 0,
-        hoverOffset: 2,
-        spacing: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '60%',
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          enabled: false
         }
       }
     }

@@ -81,27 +81,24 @@
     <!-- SCROLL AREA -->
     <main class="flex-1 overflow-y-auto bg-gray-50 p-6 space-y-5" id="main-scroll">
 
-      <!-- ── ROW 1: HERO + IDEAS ── -->
+      <!-- ── ROW 1: HERO ── -->
       @include('dashboard.hero')
 
-      <!-- ── ROW 2: 3 STAT CARDS ── -->
+      <!-- ── ROW 2: 2 STAT CARDS ── -->
       @include('dashboard.stats')
 
-      <!-- ── ROW 3: REVENUE CHART + DONUT ── -->
-      <div class="grid grid-cols-3 gap-5">
+      <!-- ── ROW 3: REVENUE CHART ── -->
+      <div class="grid grid-cols-1 gap-5">
         @include('dashboard.revenue-chart')
-        @include('dashboard.product-sales-chart')
       </div>
 
-      <!-- ── ROW 4: ORDERS TABLE + REVENUE BY LOCATION ── -->
-      <div class="grid grid-cols-3 gap-5">
+      <!-- ── ROW 4: ORDERS TABLE ── -->
+      <div class="grid grid-cols-1 gap-5">
         @include('dashboard.orders-table')
-        @include('dashboard.revenue-location')
       </div>
 
-      <!-- ── ROW 5: SALES BY GENDER + TOP PRODUCTS ── -->
-      <div class="grid grid-cols-3 gap-5 pb-6">
-        @include('dashboard.gender-chart')
+      <!-- ── ROW 5: TOP PRODUCTS ── -->
+      <div class="grid grid-cols-1 gap-5 pb-6">
         @include('dashboard.top-products-table')
       </div>
 

@@ -20,7 +20,7 @@
       </div>
       <div class="sidebar-link" onclick="setNav(this)">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0v10l-8 4-8-4V7" stroke-width="2"/></svg>
-        Katalog Produk
+        Manajemen
       </div>
       <div class="sidebar-link" onclick="setNav(this)">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.4 5h12.8M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z" stroke-width="2"/></svg>
